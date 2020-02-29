@@ -1,8 +1,8 @@
 package com.nanoseeds.week02;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @Github: https://github.com/Certseeds
@@ -10,7 +10,7 @@ import org.junit.Test;
  * @Author: nanoseeds
  * @Date: 2020-02-27 13:33:59
  * @LastEditors : nanoseeds
- * @LastEditTime : 2020-02-27 13:33:59
+ * @LastEditTime : 2020-02-29 20:52:47
  */
 public class test_Euclid {
     @Test
