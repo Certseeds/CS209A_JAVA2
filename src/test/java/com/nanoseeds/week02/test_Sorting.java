@@ -1,9 +1,14 @@
 package com.nanoseeds.week02;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 
 /**
  * @Github: https://github.com/Certseeds
@@ -11,19 +16,27 @@ import static org.junit.Assert.*;
  * @Author: nanoseeds
  * @Date: 2020-02-27 14:23:02
  * @LastEditors : nanoseeds
- * @LastEditTime : 2020-02-27 14:23:02
+ * @LastEditTime : 2020-02-29 20:51:38
  */
-public class test_Sorting {
-    //  int[] nums = {10, 4, 0, 8, 2, 5, 1, 6, 3, 7, 9};
-    int[] nums = {3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6};
-    int[] zeros = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    //int[] results = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    int[] results = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9};
 
-    @Before
+public class test_Sorting {
+    int[] data = {3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6};
+    int[] nums = new int[data.length];
+    int[] zeros = new int[data.length];
+    //int[] results = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int[] results = new int[data.length];
+
+    @BeforeEach
     public void before_operas() {
-        nums = new int[]{3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6};
-        zeros = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        nums = data;
+        zeros = new int[data.length];
+        results= data;
+        Arrays.sort(results);
+    }
+
+    @Test
+    public void tests() {
+
     }
 
     @Test
