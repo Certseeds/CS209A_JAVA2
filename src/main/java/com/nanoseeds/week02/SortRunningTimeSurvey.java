@@ -12,7 +12,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 
-
 public class SortRunningTimeSurvey {
     //    Task Name           Function Name      run times upper
     static final String max_value_str_N2 = Integer.toString(get_numbers(5));
@@ -29,9 +28,9 @@ public class SortRunningTimeSurvey {
                     "quickSort", "mergeSort", "heapSort",};
     static String[] dataList = {"AscendingSequence", "DescendingSequence",
             "RandomSequence", "OutOfOrderSequence"};
-    static int max_length = get_numbers(8) + 1;
+    static int max_length = get_numbers(8) + 10;
     static int[] data = new int[max_length];
-    static Random random_produce1 = new Random(System.currentTimeMillis() / 100);
+    static Random random_produce1 = new Random(System.currentTimeMillis() % 1000000 + 2);
     static final int minimum_sort_range = 7;
 
     public static int get_numbers(int num) {
@@ -147,7 +146,7 @@ public class SortRunningTimeSurvey {
             data[i] = i;
         }
         // shuffle
-        Random rnd = new Random();
+        Random rnd = new Random(System.currentTimeMillis() % 100000 + 2);
         for (int t = 0; t < n * 0.1; t++) {
             int i = rnd.nextInt(n);
             int j = rnd.nextInt(n);
@@ -160,8 +159,9 @@ public class SortRunningTimeSurvey {
 
     }
 
-    public static long count(int n, Method d) throws InvocationTargetException, IllegalAccessException {
-        int[] list = data;
+    public static long count(int n, Method d) {
+        int[] list = new int[n + 1];
+        System.arraycopy(data, 0, list, 0, n);
         long timeStart = System.currentTimeMillis();
         try {
             d.invoke(null, n, list);
@@ -290,20 +290,20 @@ public class SortRunningTimeSurvey {
             pos++;
             start2++;
         }
-        for (int i = begin; i <= end; i++) {
-            list[i] = zeros[i];
-        }
+        System.arraycopy(zeros, begin, list, begin, end - begin + 1);
+//        for (int i = begin; i <= end; i++) {
+//            list[i] = zeros[i];
+//        }
     }
 
     public static void heapSort(int n, int[] list) {
         // UNTODO :add your code here
         System.out.println("use heap Sort");
-        int length = n;
-        int beginIndex = ((length + 1) / 2) - 1;
+        int beginIndex = ((n + 1) / 2) - 1;
         for (int i = beginIndex; i >= 0; i--) {
-            heapSort_headpify(list, i, length);
+            heapSort_headpify(list, i, n);
         }
-        for (int i = length; i > 0; i--) {
+        for (int i = n; i > 0; i--) {
             swap_sort(list, 0, i);
             heapSort_headpify(list, 0, i - 1);
         }
