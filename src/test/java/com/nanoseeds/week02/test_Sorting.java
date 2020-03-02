@@ -1,6 +1,5 @@
 package com.nanoseeds.week02;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
  * @Author: nanoseeds
  * @Date: 2020-02-27 14:23:02
  * @LastEditors : nanoseeds
- * @LastEditTime : 2020-02-29 20:51:38
+ * @LastEditTime : 2020-03-02 16:40:27
  */
 
 public class test_Sorting {
@@ -28,9 +27,11 @@ public class test_Sorting {
 
     @BeforeEach
     public void before_operas() {
-        nums = data;
+        nums = new int[data.length];
         zeros = new int[data.length];
-        results= data;
+        results = new int[data.length];
+        System.arraycopy(data, 0, nums, 0, data.length);
+        System.arraycopy(data, 0, results, 0, nums.length);
         Arrays.sort(results);
     }
 
