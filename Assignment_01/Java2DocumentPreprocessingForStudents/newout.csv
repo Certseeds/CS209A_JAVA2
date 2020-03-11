@@ -1,0 +1,16 @@
+path,source,field,date,char_count,old_encoding
+.\txtout\人日\时政\一周内\hi_1_there.txt,人日,时政,20200305,1389,UTF-8
+.\txtout\天涯\生活\一月内\hi_2_there.txt,天涯,生活,20200301,1390,UTF-8
+.\txtout\腾讯\体育\半年内\hi_3_there.txt,腾讯,体育,20200109,1448,UTF-16LE
+.\txtout\新浪\科技\一月内\hi_4_there.txt,新浪,科技,20200225,1448,UTF-16BE
+.\txtout\人日\人文\一月内\hi_5_there.txt,人日,人文,20200228,1389,GB18030
+.\txtout\天涯\时政\一月内\hi_6_there.txt,天涯,时政,20200213,1389,GB18030
+.\txtout\腾讯\生活\半年内\hi_7_there.txt,腾讯,生活,20200201,1389,GB18030
+.\txtout\新浪\体育\一周内\hi_8_there.txt,新浪,体育,20200305,1389,Big5
+.\txtout\人日\科技\半年内\hi_9_there.txt,人日,科技,20200106,0,UTF-8
+.\txtout\天涯\人文\半年以上\hi_10_there.txt,天涯,人文,20190108,0,UTF-8
+.\txtout\腾讯\时政\半年内\hi_11_there.txt,腾讯,时政,20200105,0,UTF-8
+.\txtout\新浪\生活\半年内\hi_12_there.txt,新浪,生活,20191231,0,UTF-8
+.\txtout\人日\体育\半年内\hi_13_there.txt,人日,体育,20191201,0,UTF-8
+.\txtout\天涯\科技\半年以上\hi_14_there.txt,天涯,科技,20190105,0,UTF-8
+.\txtout\腾讯\人文\半年以上\hi_15_there.txt,腾讯,人文,20190506,0,UTF-8
