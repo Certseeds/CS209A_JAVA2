@@ -64,25 +64,25 @@ public class Test_Code_Breaker_1 {
     }
 
     @Test
-    public void test_breaker_true() {
+    public void test_main_true() {
         String[] arr = {path_true};
-        CodeBreaker_1.breaker(arr);
+        CodeBreaker_1.main(arr);
         assertEquals(";48\r\n", outContent.toString());
     }
 
     @Test
-    public void test_breaker_not_exist() {
+    public void test_main_not_exist() {
         String[] arr = {path_false};
-        CodeBreaker_1.breaker(arr);
+        CodeBreaker_1.main(arr);
         assertEquals(
                 String.format("%s do not exist\r\n", arr[0]),
                 outContent.toString());
     }
 
     @Test
-    public void test_breaker_already_exist() {
+    public void test_main_already_exist() {
         String[] arr = {path_dir};
-        CodeBreaker_1.breaker(arr);
+        CodeBreaker_1.main(arr);
         assertEquals(
                 String.format("%s is a folder and it exist\r\n", arr[0]),
                 outContent.toString());

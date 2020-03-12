@@ -3,26 +3,27 @@ package com.nanoseeds.week03;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.Arrays;
 import java.util.HashMap;
-
 /**
  * @Github: https://github.com/Certseeds
  * @Organization: SUSTech
  * @Author: nanoseeds
  * @Date: 2020-03-03 18:21:57
  * @LastEditors : nanoseeds
- * @LastEditTime : 2020-03-04 11:04:02
+ * @LastEditTime : 2020-03-12 11:54:49
  */
+
 public class CodeBreaker_1 {
     public static void main(String[] args) {
         try {
-            breaker(args);
+            System.out.println(breaker(args));
         } catch (IllegalArgumentException iae) {
             System.out.println(String.format("arguments' number should be 1 not %d", args.length));
         }
     }
 
-    public static void breaker(String[] args) throws IllegalArgumentException {
+    public static String breaker(String[] args) throws IllegalArgumentException {
         if (args.length != 1) {
             throw new IllegalArgumentException();
         }
@@ -30,30 +31,25 @@ public class CodeBreaker_1 {
         try {
             strb = readFile(args[0]);
         } catch (FileAlreadyExistsException fee) {
-            System.out.println(fee.getMessage() + " is a folder and it exist");
-            return;
+            return (fee.getMessage() + " is a folder and it exist");
         } catch (FileNotFoundException ffe) {
-            System.out.println(String.format("%s do not exist", args[0]));
-            return;
+            return (String.format("%s do not exist", args[0]));
         } catch (IOException e) {
-            System.out.println("unknown IO exception");
-            e.printStackTrace();
-            return;
+            return ("unknown IO exception" + Arrays.toString(e.getStackTrace()));
         }
         HashMap<String, Integer> fres = new HashMap<>();
+        int max_v = -1;
         for (int i = 0; i < strb.length() - 3; i++) {
-            //System.out.println(strb.substring(i, i + 3));
             fres.put(strb.substring(i, i + 3),
                     fres.getOrDefault(strb.substring(i, i + 3), 0) + 1);
+            max_v = Math.max(max_v, fres.get(strb.substring(i, i + 3)));
         }
-        int max_v = 0xffffffff;
-        String max_key = "";
         for (String key : fres.keySet()) {
-            //System.out.println(key + "=" + fres.get(key));
-            max_key = (max_v > fres.get(key) ? max_key : key);
-            max_v = Math.max(max_v, fres.get(key));
+            if (fres.get(key) == max_v) {
+                return key;
+            }
         }
-        System.out.println(max_key);
+        return "should not reach there";
     }
 
     public static StringBuilder readFile(String path) throws IOException {
@@ -70,7 +66,6 @@ public class CodeBreaker_1 {
             while ((n = isr.read()) != -1) {
                 strb.append((char) n);
             }
-            //System.out.println(strb);
         } catch (UnsupportedEncodingException uee) {
             System.out.println("unsupported format of file");
         }
