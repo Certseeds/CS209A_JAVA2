@@ -7,7 +7,7 @@
  * @LastEditors : nanoseeds
  * @LastEditTime : 2020-03-17 22:14:23
  */
-package sample;
+package com_nanoseeds_cs205;
 
 import java.net.URL;
 import java.util.Random;
