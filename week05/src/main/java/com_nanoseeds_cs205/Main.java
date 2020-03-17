@@ -1,4 +1,4 @@
-package sample;
+package com_nanoseeds_cs205;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try {
             Parent root =
-                    FXMLLoader.load(getClass().getResource("mainUI.fxml"));
+                    FXMLLoader.load(getClass().getResource("/fxml/mainUI.fxml"));
             primaryStage.setTitle("My Application");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
