@@ -5,7 +5,7 @@ InputCsvPath: .\input.csv
 InputTxtPath: .\indata
 TargetEncoding: UTF-8
 CategorizeBy:
+  - Date
   - Source
   - Field
-  - Date
 SummaryPath: .\newout.csv
