@@ -128,7 +128,6 @@ public class RootLayoutController {
         alert.setTitle("AddressApp");
         alert.setHeaderText("About");
         alert.setContentText("Author: Marco Jakob\nWebsite: http://code.makery.ch");
-
         alert.showAndWait();
     }
 
