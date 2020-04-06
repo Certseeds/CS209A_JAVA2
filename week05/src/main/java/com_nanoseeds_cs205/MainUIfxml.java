@@ -38,7 +38,9 @@ public class MainUIfxml implements Initializable {
 // TODO Auto-generated method stub
         rand_generator = new Random();
     }
-
+    public void test(){
+        System.out.println(114514);
+    }
     public void moveWindow(MouseEvent me) {
         Node node = (Node) me.getSource();
 // Returns a reference to the button
