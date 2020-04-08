@@ -2,10 +2,19 @@
     "fileheader.configObj": {
         "createFileTime": true,
         "language": {
-            "languagetest": {
-                "head": "/$$",
-                "middle": " $ @",
-                "end": " $/"
+            "gitattributes":{
+                "head":"### ",
+                "middle":" # @",
+                "end":"### "
+            },
+            "gitignore":{
+                "head":"### ",
+                "middle":"## @",
+                "end":"### "
+            },"md":{
+                "head":"<!--",
+                "middle":" * @",
+                "end":" * @License: CC-BY-NC-SA_V4_0 or any later version \n -->"
             }
         },
         "autoAdd": true,
@@ -51,7 +60,7 @@
         "CheckFileChange": false
     },
     "fileheader.customMade": {
-        "Github":"https://github.com/Certseeds",
+        "Github":"https://github.com/Certseeds/CS209A_JAVA2",
         "Organization": "SUSTech",
         "Author": "nanoseeds",
         "Date": "Do not edit",
