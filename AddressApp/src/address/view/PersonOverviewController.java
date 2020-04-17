@@ -8,9 +8,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import address.model.Person;
 import address.util.DateUtil;
-import address.MainApp;
 
-public class PersonOverviewController {
+public class PersonOverviewController<MainApp> {
     @FXML
     private TableView<Person> personTable;
     @FXML
