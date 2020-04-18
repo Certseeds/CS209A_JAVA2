@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Controller {
+
     @FXML
     private BarChart<String, Number> gene_chart;
     @FXML
@@ -61,6 +62,7 @@ public class Controller {
             get_graph(new File(root));
         }
     }
+
 
     public void get_graph(File file) {
         Counter middle_count = counter;
@@ -99,7 +101,8 @@ public class Controller {
             }
             series_sorted.getData().add(new XYChart.Data<String, Number>(key, count));
         }
-        this.series_sorted.getData().sort(Comparator.comparingDouble(d -> -1 * d.getYValue().doubleValue()));
+        this.series_sorted.getData()
+                .sort(Comparator.comparingDouble(d -> -1 * d.getYValue().doubleValue()));
     }
 
     public void set_gene_chart() {
