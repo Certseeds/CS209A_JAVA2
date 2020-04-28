@@ -10,6 +10,7 @@ CS209A_JAVA2
 
 1. All code based on AGPL3.0(or any later version).
 2. All *.md files are based on CC-BY-NC-SA-4.0(or any later version).
+
 [![AGPL3.0 Licence](https://img.shields.io/badge/License-AGPL_V3-orange)][agpl_3_0]
 
 [![AGPL_V3](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)][agpl_3_0]
