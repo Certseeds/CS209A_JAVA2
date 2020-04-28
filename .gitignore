@@ -184,3 +184,7 @@ $RECYCLE.BIN/
 
 *.txt
 lab_*/*
+# sqlite
+*.sqlite*
+# Mac
+*.DS_Store
