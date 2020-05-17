@@ -1,4 +1,4 @@
-package com.nanoseeds.week12;
+package com.nanoseeds.week13;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-// Please run the code under Java 8
 public class ClientStudent {
 
     public static void main(String[] args) throws IOException {
