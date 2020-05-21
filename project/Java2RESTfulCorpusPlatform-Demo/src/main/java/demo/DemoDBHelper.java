@@ -1,5 +1,6 @@
 package demo;
 
+// TODO, place it as dao
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 

@@ -1,5 +1,6 @@
 package demo;
 
+// TODO, place it as model
 // Example class use by Demo Server and Demo Client
 // Just a plain old Java object
 class Course {

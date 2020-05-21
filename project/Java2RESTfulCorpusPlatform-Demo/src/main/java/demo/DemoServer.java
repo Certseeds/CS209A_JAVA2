@@ -1,34 +1,45 @@
 package demo;
 
+import dao.TextDao;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
+import io.javalin.plugin.openapi.OpenApiOptions;
+import io.javalin.plugin.openapi.OpenApiPlugin;
+import io.javalin.plugin.openapi.ui.SwaggerOptions;
+import io.swagger.v3.oas.models.info.Info;
+import service.TextService;
 import util.FailureCause;
 import util.FailureResponse;
 import util.Response;
 import util.SuccessResponse;
 
+/**
+ * The type Demo server.
+ */
 public class DemoServer {
-    public static void main(String[] args) {
+    static TextService service = new TextService();
+    static Javalin app = Javalin.create(config -> {
+        config.registerPlugin(getConfiguredOpenApiPlugin());
+    }).start(7002);
+
+    public static void main2() {
         // This is a small quickstart guide to RESTful server with Javalin framework.
         // It should have covered all the Javalin features you will be using in this project.
         // Read more about Javalin at: https://javalin.io/documentation
 
-        // Initialize Javalin Server on port 7002
-        Javalin app = Javalin.create().start(7002);
 
         // Handles a Get request at route /
-        app.get("/", ctx -> {
-            // ctx stands for context
-            // ctx.result method set the response body
-            ctx.result("Server Demo");
-        });
+//        app.get("/qishidas", ctx -> {
+//            // ctx stands for context
+//            // ctx.result method set the response body
+//            ctx.result("Server Demo");
+//        });
         // By the way, `->` uses Lambda Expression
         // You can read more about Lambda Expression here: https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 
         // You can also use methods to handle requests, using Method Reference (Class::Method)
-        app.get("/hi", DemoServer::handleHi);
-        // or go with the more traditional way
-        // app.get("/hi", ctx -> DemoServer.handleHi(ctx));
+//        app.get("/hi", ctx -> {
+//            ctx.result("114514");
+//        });
 
         // You can read from path parameters
         app.get("/greet/:name", ctx -> {
@@ -68,21 +79,39 @@ public class DemoServer {
 
         // As well as read from request body in a post request
         app.post("/bodySample", ctx -> {
-            // as String
             String bodyString = ctx.body();
-
             // or as byte[]
             byte[] bytes = ctx.bodyAsBytes();
-
             ctx.result("received byte length: " + bytes.length);
         });
 
         // That's the end of the server demo. Hope this helps!
     }
 
+    public static void main(String[] args) throws ClassNotFoundException {
+        TextDao.initial();
+        main2();
+        app.get("/", ctx -> ctx.result("Welcome to RESTful Corpus Platform"));
+        // handle exist
+        app.get("/files/:md5/exists", service::handleExists);
+        // handle upload
+        app.post("/files/:md5", service::handleUpload);
+        // handle compare
+        app.get("/files/:md51/compare/:md52", service::handleCompare);
+        // handle download
+        app.get("/files/:md5", service::handleDownload);
+        // handle file list
+        app.get("/files", service::handle_files);
+    }
 
-    private static void handleHi(Context ctx) {
-        ctx.result("Hi!");
+    private static OpenApiPlugin getConfiguredOpenApiPlugin() {
+        Info info = new Info().version("1.0").description("RESTful Corpus Platform API");
+        OpenApiOptions options = new OpenApiOptions(info)
+                .activateAnnotationScanningFor("cn.edu.sustech.java2.RESTfulCorpusPlatform")
+                .path("/swagger-docs") // endpoint for OpenAPI json
+                .swagger(new SwaggerOptions("/swagger-ui")); // endpoint for swagger-ui
+//                .reDoc(new ReDocOptions("/redoc")); // endpoint for redoc
+        return new OpenApiPlugin(options);
     }
 }
 
