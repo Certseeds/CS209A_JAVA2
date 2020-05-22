@@ -119,14 +119,15 @@ public class test_Utils {
     @Test
     @Order(3)
     public void test_upload() throws IOException {
-        for (int i = 0; i < 10; i++) {
-            sb.append(String.format("upload materials_format/%d.txt\n", i));
-        }
-        sb.append("upload ");
-        for (int i = 10; i < upload_number; i++) {
-            sb.append(String.format("materials_format/%d.txt ", i));
-        }
-        sb.append("\n");
+//        for (int i = 0; i < 10; i++) {
+//            sb.append(String.format("upload materials_format/%d.txt\n", i));
+//        }
+//        sb.append("upload ");
+//        for (int i = 10; i < upload_number; i++) {
+//            sb.append(String.format("materials_format/%d.txt ", i));
+//        }
+//        sb.append("\n");
+        sb.append("upload ./materials_format/\n");
         String inputMessage = sb.toString() + "break\n";
         setInput(inputMessage);
         DemoClient.main(new String[0]);

@@ -46,6 +46,7 @@ public class TextService {
      * @param ctx the ctx
      */
     public void handleExists(Context ctx) {
+        ctx.res.setCharacterEncoding("UTF-8");
         String md5 = ctx.pathParam("md5");
         boolean exists = !TextDao.find_md5(md5);
         Response response = new Response(0, "");
@@ -60,6 +61,7 @@ public class TextService {
      * @throws IOException the io exception
      */
     public void handleUpload(Context ctx) throws IOException {
+        ctx.res.setCharacterEncoding("UTF-8");
         String recieve_md5 = ctx.pathParam("md5");
         byte[] bytes = ctx.bodyAsBytes();
         String cal_md5 = calculateMD5(bytes);
@@ -93,6 +95,7 @@ public class TextService {
      * @param ctx the ctx
      */
     public void handleDownload(Context ctx) {
+        ctx.res.setCharacterEncoding("UTF-8");
         String md5 = ctx.pathParam("md5");
         Response response;
         if (TextDao.find_md5(md5)) {
@@ -114,6 +117,7 @@ public class TextService {
      * @param ctx the ctx
      */
     public void handleCompare(Context ctx) {
+        ctx.res.setCharacterEncoding("UTF-8");
         String md51 = ctx.pathParam("md51");
         String md52 = ctx.pathParam("md52");
         Response response;
@@ -140,6 +144,7 @@ public class TextService {
      * @param ctx the ctx
      */
     public void handle_files(Context ctx) {
+        ctx.res.setCharacterEncoding("UTF-8");
         List<Document> doc_list = TextDao.get_files();
         List<summary> sum_list = new LinkedList<>();
         for (Document i : doc_list) {

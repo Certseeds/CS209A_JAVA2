@@ -7,11 +7,13 @@ import util.Operation;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import static util.Utils.calculateMD5;
+import static util.Utils.get_files_from_dir;
 import static util.Utils.readFile_guess_format;
 import static util.Utils.store_file;
 
@@ -143,15 +145,20 @@ public class DemoClient {
      * Handle upload.
      *
      * @param args the args, String array, it should have >=2 Strings, all args[i](i>0) will be upload.
+     *             multiply file or folder is supported.
      * @throws IOException the io exception
      */
     public static void handleUpload(String[] args) throws IOException {
         System.out.println("begin Upload");
+        ArrayList<File> files = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
-            String Path = args[i];
-            File file = new File(Path);
+            files.addAll(get_files_from_dir(new File(args[i])));
+        }
+        HashSet<File> hs_file = new HashSet<>();
+        hs_file.addAll(files);
+        for (File file : hs_file) {
             if (!(file.exists() && file.isFile() && file.canRead())) {
-                System.err.printf("Wrong Path of %s", Path);
+                System.err.printf("Wrong Path of %s", file.getAbsolutePath());
                 continue;
                 // if can not read.
             }
@@ -168,11 +175,11 @@ public class DemoClient {
                 Map<String, Object> result = (Map<String, Object>) response.get("result");
                 // get result
                 if (result.get("success").equals(true) && response.get("code").equals(0)) {
-                    System.out.printf("The file in %s is upload database.\n", Path);
+                    System.out.printf("The file in %s is upload database.\n", file.getAbsolutePath());
                 } else {
                     System.err.printf("The file in %s happen error,\n" +
                             " error code is %s,\n" +
-                            "message is %s \n", Path, response.get("code"), response.get("message"));
+                            "message is %s \n", file.getAbsolutePath(), response.get("code"), response.get("message"));
                 }
             } catch (Exception ioe) {
                 ioe.printStackTrace();
