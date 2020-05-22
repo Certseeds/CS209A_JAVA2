@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * The type Utils.
@@ -196,5 +197,18 @@ public class Utils {
             System.out.println("Failed or interrupted when doing the I/O operations");
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<File> get_files_from_dir(File file) {
+        ArrayList<File> will_return = new ArrayList<>();
+        if (file.isFile()) {
+            will_return.add(file);
+        } else if (file.isDirectory()) {
+            for (File i : file.listFiles()) {
+                ArrayList<File> temp = get_files_from_dir(i);
+                will_return.addAll(temp);
+            }
+        }
+        return will_return;
     }
 }
