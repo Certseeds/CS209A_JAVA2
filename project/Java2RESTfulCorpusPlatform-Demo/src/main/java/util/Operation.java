@@ -23,10 +23,46 @@
  */
 package util;
 
+/**
+ * The enum Operation.
+ */
 public enum Operation {
 
-    UPLOAD, DOWNLOAD, COMPARE, EXISTS, FILES, BREAK, NOT_ANY_ONE;
+    /**
+     * Upload operation.
+     */
+    UPLOAD,
+    /**
+     * Download operation.
+     */
+    DOWNLOAD,
+    /**
+     * Compare operation.
+     */
+    COMPARE,
+    /**
+     * Exists operation.
+     */
+    EXISTS,
+    /**
+     * List operation.
+     */
+    LIST,
+    /**
+     * Break operation.
+     */
+    BREAK,
+    /**
+     * Not any one operation.
+     */
+    NOT_ANY_ONE;
 
+    /**
+     * Parse operation operation.
+     *
+     * @param op the op String,
+     * @return the operation
+     */
     public static Operation parseOperation(String op) {
         switch (op.toLowerCase()) {
             case "upload": {
@@ -41,11 +77,11 @@ public enum Operation {
             case "exists": {
                 return Operation.EXISTS;
             }
+            case "list": {
+                return Operation.LIST;
+            }
             case "break": {
                 return Operation.BREAK;
-            }
-            case "files": {
-                return Operation.FILES;
             }
             default: {
                 return Operation.NOT_ANY_ONE;

@@ -6,53 +6,86 @@ import util.Operation;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import static util.Utils.calculateMD5;
-import static util.Utils.readFile;
+import static util.Utils.readFile_guess_format;
+import static util.Utils.store_file;
 
+/**
+ * The type Demo client.
+ */
 public class DemoClient {
+    /**
+     * The Endpoint, server's address.
+     */
     static final String endpoint = "http://localhost:7002";
+    /**
+     * The download files's store in here.
+     */
+    static final String begin = "./download/";
+    /**
+     * The Object mapper. use for deserialize.
+     */
     static ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments, use as input string array.
+     * @throws IOException the io exception
+     */
     public static void main(String[] args) throws IOException {
-        System.out.println(System.getProperty("user.dir"));
-        //test_javalin();
         Scanner in = new Scanner(System.in);
-        // That's the end of the client demo. Hope this helps!
         while (true) {
             args = in.nextLine().split("\\s+");
-            if (args.length < 2) {
-                System.out.println("parameter should bigger than 2");
+            if (args.length < 1) {
+                System.err.println("should have parameter");
                 printUsage();
                 continue;
             }
             Operation operation = Operation.parseOperation(args[0]);
-            if (operation == Operation.NOT_ANY_ONE) {
-                System.err.println("Unknown operation,input once again");
-                printUsage();
-                continue;
-            }
             switch (operation) {
                 case UPLOAD: {
+                    if (args.length < 2) {
+                        System.err.println("parameter should bigger than 1");
+                        printUsage();
+                        break;
+                    }
                     handleUpload(args);
                     break;
                 }
                 case DOWNLOAD: {
+                    if (args.length < 2) {
+                        System.err.println("parameter should bigger than 1");
+                        printUsage();
+                        break;
+                    }
                     handleDownload(args);
                     break;
                 }
                 case COMPARE: {
+                    if (args.length < 3) {
+                        System.err.println("parameter should bigger than 2");
+                        printUsage();
+                        break;
+                    }
                     handleCompare(args);
                     break;
                 }
                 case EXISTS: {
+                    if (args.length < 2) {
+                        System.err.println("parameter should bigger than 1");
+                        printUsage();
+                        break;
+                    }
                     handleExists(args);
                     break;
                 }
-                case FILES: {
+                case LIST: {
                     handle_Files(args);
                     break;
                 }
@@ -60,58 +93,19 @@ public class DemoClient {
                     System.out.println("client end");
                     return;
                 }
+                default: {
+                    System.err.println("Unknown operation,input once again");
+                    printUsage();
+                    break;
+                }
             }
         }
     }
 
-    private static void test_javalin() throws IOException {
-        // Before your study you can read :http://www.ruanyifeng.com/blog/2011/09/restful.html to understand
-        // the RESTful.
-        // Read http://www.ruanyifeng.com/blog/2014/05/restful_api.html to know more detail how the RESTful works.
-
-        // This is a small quickstart guide of using Apache HttpComponent fluent APIs to perform web requests.
-        // You can read more at: https://hc.apache.org/httpcomponents-client-ga/tutorial/html/fluent.html
-        // Before moving on, please make sure `DemoServer` is running on localhost:7002
-
-
-        // To get from a certain url, just use the `Get` method.
-        String responseString = Request.Get(endpoint + "/").execute().returnContent().asString();
-        System.out.println("Content at / : " + responseString);
-
-        // To get from a certain url, just use the `Get` method.
-        responseString = Request.Get(endpoint + "/hi").execute().returnContent().asString();
-        System.out.println("Content at /hi : " + responseString);
-
-        //
-        String name = "Adam";
-        responseString = Request.Get(endpoint + "/greet" + "/" + name).execute().returnContent().asString();
-        System.out.println("Content at /greet : " + responseString);
-
-        // You can also read json from response, with a little help from ObjectMapper
-        responseString = Request.Get(endpoint + "/jsonSample").execute().returnContent().asString();
-
-        Course course = objectMapper.readValue(responseString, Course.class);
-        System.out.println(course);
-
-        // To read our predefined `Response`, you might need to covert it to a map
-        responseString = Request.Get(endpoint + "/response/success").execute().returnContent().asString();
-        Map<String, Object> successResponse = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
-        Map<String, Object> result = (Map<String, Object>) successResponse.get("result");
-        System.out.println("Score is " + result.get("score"));
-
-        // Beside `Get`, you can also perform `Post`
-        String postContent = "Greeting from client!";
-        byte[] postBytes = postContent.getBytes(StandardCharsets.UTF_8);
-        responseString = Request.Post(endpoint + "/bodySample").bodyByteArray(postBytes).execute().returnContent().asString();
-        System.out.println("Server response: " + responseString);
-
-    }
-
-
     /**
      * Handle exists.
      *
-     * @param args the args, String array, should have >= 2 Strings, but only 2nd will be use
+     * @param args the args, String array, should have >= 2 Strings, but only 2nd will be use.
      * @throws IOException the io exception
      */
     public static void handleExists(String[] args) throws IOException {
@@ -120,10 +114,11 @@ public class DemoClient {
         System.out.println(Path);
         File file = new File(Path);
         if (!(file.exists() && file.isFile() && file.canRead())) {
-            System.out.printf("Wrong Path of %s", Path);
+            System.err.printf("Wrong Path of %s", Path);
             return;
+            // if can not read.
         }
-        String str = readFile(file);
+        String str = readFile_guess_format(file);
         String md5 = calculateMD5(str);
         String responseString = null;
         try {
@@ -131,6 +126,7 @@ public class DemoClient {
                     .execute()
                     .returnContent()
                     .asString();
+            // get result
             Map<String, Object> response = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
             Map<String, Object> result = (Map<String, Object>) response.get("result");
             if (result.get("exists").equals(true)) {
@@ -141,42 +137,131 @@ public class DemoClient {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-        // System.out.println("Content at / : " + responseString);
     }
 
     /**
      * Handle upload.
      *
-     * @param args the args, String array, it should have >=2 Strings, all will be
+     * @param args the args, String array, it should have >=2 Strings, all args[i](i>0) will be upload.
      * @throws IOException the io exception
      */
     public static void handleUpload(String[] args) throws IOException {
         System.out.println("begin Upload");
-        String Path = args[1];
-        System.out.println(Path);
-        File file = new File(Path);
-        if (!(file.exists() && file.isFile() && file.canRead())) {
-            System.out.printf("Wrong Path of %s", Path);
+        for (int i = 1; i < args.length; i++) {
+            String Path = args[i];
+            File file = new File(Path);
+            if (!(file.exists() && file.isFile() && file.canRead())) {
+                System.err.printf("Wrong Path of %s", Path);
+                continue;
+                // if can not read.
+            }
+            String str = readFile_guess_format(file);
+            String md5 = calculateMD5(str);
+            String responseString = null;
+            try {
+                responseString = Request.Post(endpoint + "/files/" + md5)
+                        .bodyByteArray(str.getBytes())
+                        .execute()
+                        .returnContent()
+                        .asString();
+                Map<String, Object> response = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
+                Map<String, Object> result = (Map<String, Object>) response.get("result");
+                // get result
+                if (result.get("success").equals(true) && response.get("code").equals(0)) {
+                    System.out.printf("The file in %s is upload database.\n", Path);
+                } else {
+                    System.err.printf("The file in %s happen error,\n" +
+                            " error code is %s,\n" +
+                            "message is %s \n", Path, response.get("code"), response.get("message"));
+                }
+            } catch (Exception ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * Handle compare.
+     *
+     * @param args the args, String array, it should have >=3 Strings:
+     *             2nd and 3rd will be use to compare
+     *             all files should be upload to server.
+     * @throws IOException the io exception
+     */
+    public static void handleCompare(String[] args) throws IOException {
+        System.out.println("begin Compare");
+        String Path1 = args[1];
+        String Path2 = args[2];
+        File file1 = new File(Path1);
+        File file2 = new File(Path2);
+        if (!(file1.exists() && file1.isFile() && file1.canRead())) {
+            System.err.printf("Wrong Path of %s", Path1);
             return;
         }
-        String str = readFile(file);
-        // TODO transfer other format to UTF-8.
-        String md5 = calculateMD5(str);
+        if (!(file2.exists() && file2.isFile() && file2.canRead())) {
+            System.err.printf("Wrong Path of %s", Path2);
+            return;
+        }
+        String str1 = readFile_guess_format(file1);
+        String str2 = readFile_guess_format(file2);
+        String md51 = calculateMD5(str1);
+        String md52 = calculateMD5(str2);
         String responseString = null;
         try {
-            responseString = Request.Post(endpoint + "/files/" + md5)
-                    .bodyByteArray(str.getBytes())
+            responseString = Request.Get(endpoint + "/files/" + md51 + "/compare/" + md52)
                     .execute()
                     .returnContent()
                     .asString();
             Map<String, Object> response = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
             Map<String, Object> result = (Map<String, Object>) response.get("result");
-            if (result.get("success").equals(true) && response.get("code").equals(0)) {
-                System.out.printf("The file in %s is upload database.\n", Path);
+            // get result
+            if (response.get("code").equals(0)) {
+                System.out.printf("distance between %s and %s is :,simple distance : %s, Levennshtein Distance : %s\n",
+                        Path1, Path2, result.get("simple_similarity"), result.get("levenshtein_distance"));
             } else {
-                System.out.printf("The file in %s happen error,\n" +
-                        " error code is %d,\n" +
+                System.err.printf("Happen error,\n" +
+                        " error code is %s,\n" +
+                        "message is %s \n", response.get("code"), response.get("message"));
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Handle download.
+     *
+     * @param args the args,String array, it should have >=2 Strings, 2nd  will be use to download files .
+     * @throws IOException the io exception
+     */
+    public static void handleDownload(String[] args) throws IOException {
+        System.out.println("begin downloading");
+        String Path = args[1];
+        File file = new File(Path);
+        if (!(file.exists() && file.isFile() && file.canRead())) {
+            System.err.printf("Wrong Path of %s", Path);
+            return;
+        }
+        String str = readFile_guess_format(file);
+        String md5 = calculateMD5(str);
+        String responseString = null;
+        try {
+            responseString = Request.Get(endpoint + "/files/" + md5)
+                    .execute()
+                    .returnContent()
+                    .asString();
+            Map<String, Object> response = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
+            Map<String, Object> result = (Map<String, Object>) response.get("result");
+            // get result
+            if (response.get("code").equals(0)) {
+                String content = (String) result.get("content");
+                store_file(begin + md5 + ".txt", content);
+                System.out.printf("The file is download in %s.\n", begin + md5 + ".txt");
+            } else {
+                System.err.printf("The file in %s happen error,\n" +
+                        " error code is %s,\n" +
                         "message is %s \n", Path, response.get("code"), response.get("message"));
             }
         } catch (Exception ioe) {
@@ -184,34 +269,35 @@ public class DemoClient {
         }
     }
 
-    /**
-     * Handle compare.
-     *
-     * @param args the args
-     * @throws IOException the io exception
-     */
-    public static void handleCompare(String[] args) throws IOException {
-
-    }
-
-    /**
-     * Handle download.
-     *
-     * @param args the args
-     * @throws IOException the io exception
-     */
-    public static void handleDownload(String[] args) throws IOException {
-
-    }
-
 
     /**
      * Handle files.
      *
-     * @param args the args
+     * @param args the args, no args will be use.
      * @throws IOException the io exception
      */
     public static void handle_Files(String[] args) throws IOException {
+        System.out.println("begin list");
+        String responseString = null;
+        try {
+            responseString = Request.Get(endpoint + "/files")
+                    .execute()
+                    .returnContent()
+                    .asString();
+            Map<String, Object> response = (Map<String, Object>) objectMapper.readValue(responseString, Map.class);
+            Map<String, Object> result = (Map<String, Object>) response.get("result");
+            ArrayList<LinkedHashMap<String, Object>> summ_list = (ArrayList<LinkedHashMap<String, Object>>) result.get("files");
+            // get result
+            int count = 0;
+            for (LinkedHashMap<String, Object> lh : summ_list) {
+                System.out.printf("file %d :\n md5 is : %s,\nlength is %s,\npreview is %s\n",
+                        count, lh.get("md5"), lh.get("length"), lh.get("preview"));
+                count++;
+                // output them one by one.
+            }
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     /**
@@ -219,7 +305,8 @@ public class DemoClient {
      */
     public static void printUsage() {
         System.out.println("Usage: [op] [params]");
-        System.out.println("Available Operation: upload, download, compare, exists");
+        System.out.println("Available Operation: upload, download, compare, exists, list, break.");
+        // add a break command to finish the clien
     }
 
 }
