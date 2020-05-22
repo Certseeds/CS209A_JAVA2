@@ -52,6 +52,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * The type Test utils.
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class test_Utils {
     private static final int upload_number = 18;
@@ -63,6 +66,9 @@ public class test_Utils {
     private static DemoServer DS;
     private static Random random = new Random(System.currentTimeMillis());
     private static CharsetDetector detector = new CharsetDetector();
+    /**
+     * The Sb.
+     */
     StringBuilder sb;
 
     @BeforeAll
@@ -70,17 +76,9 @@ public class test_Utils {
         util = new Utils();
         PrintStream console = System.out;
         // 获取System.out 输出流的句柄
-        forceMkdir(new File("./download/"));
-        forceMkdir(new File("./upload/"));
         TextDao.delete_sql();
         DS = new DemoServer();
         DS.main(new String[0]);
-    }
-
-    @AfterAll
-    private static void after_all() throws IOException {
-        deleteDirectory(new File("./download/"));
-        deleteDirectory(new File("./upload/"));
     }
 
     private static void setOutput() {
@@ -90,19 +88,38 @@ public class test_Utils {
         System.setErr(new PrintStream(std_err));
     }
 
+    @AfterAll
+    private static void after_all() throws IOException {
+        deleteDirectory(new File("./download/"));
+        deleteDirectory(new File("./upload/"));
+        forceMkdir(new File("./download/"));
+        forceMkdir(new File("./upload/"));
+    }
+
+    /**
+     * Before each.
+     */
     @BeforeEach
     public void before_each() {
         sb = new StringBuilder();
         setOutput();
     }
 
+    /**
+     * Test get simple similarity.
+     */
     @Test
     @Order(1)
     public void test_get_simple_similarity() {
         assertEquals(1.0f / 7.0f, Double.valueOf(util.get_simple_similarity("114514", "1234567")), 1.0f / 1000.0f);
     }
 
-    // way come form https://kknews.cc/code/xq6a3pr.html
+    /**
+     * Test exists not in when database is empty.
+     *
+     * @throws IOException the io exception
+     */
+// way come form https://kknews.cc/code/xq6a3pr.html
     @Test
     @Order(2)
     public void test_exists_not_in() throws IOException {
@@ -116,6 +133,11 @@ public class test_Utils {
         assertFalse(std_out.toString().contains("is in database"));
     }
 
+    /**
+     * Test upload by folder name.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(3)
     public void test_upload() throws IOException {
@@ -135,6 +157,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("happen error"));
     }
 
+    /**
+     * Test exists in after files in uploaded, it should recieve file exist response.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(4)
     public void test_exists_in() throws IOException {
@@ -148,6 +175,11 @@ public class test_Utils {
         assertFalse(std_out.toString().contains("not in database"));
     }
 
+    /**
+     * Test upload all exists that use files by files.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(5)
     public void test_upload_all_exists() throws IOException {
@@ -161,6 +193,11 @@ public class test_Utils {
         assertTrue(std_err.toString().contains("happen error"));
     }
 
+    /**
+     * Test compare all file in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(6)
     public void test_compare_all_file_in() throws IOException {
@@ -181,6 +218,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test compare that 2nd file not in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(7)
     public void test_compare_2nd_file_not_in() throws IOException {
@@ -201,6 +243,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test compare that 1st file not in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(8)
     public void test_compare_1st_file_not_in() throws IOException {
@@ -221,6 +268,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test compare all file not in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(9)
     public void test_compare_all_file_not_in() throws IOException {
@@ -241,6 +293,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test download all file in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(10)
     public void test_download_all_file_in() throws IOException {
@@ -258,6 +315,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test download all file not in.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(11)
     public void test_download_all_file_not_in() throws IOException {
@@ -275,6 +337,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test list files.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(12)
     public void test_files() throws IOException {
@@ -286,6 +353,11 @@ public class test_Utils {
         }
     }
 
+    /**
+     * Test upload download file's format.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(13)
     public void test_upload_download_file_format() throws IOException {
@@ -301,6 +373,11 @@ public class test_Utils {
         }
     }
 
+    /**
+     * Test argument number error zero.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(14)
     public void test_argument_number_error_zero() throws IOException {
@@ -319,6 +396,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test argument number error one.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(15)
     public void test_argument_number_error_one() throws IOException {
@@ -337,6 +419,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test argument number error one para.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(16)
     public void test_argument_number_error_one_para() throws IOException {
@@ -359,6 +446,11 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
     }
 
+    /**
+     * Test argument number error two para.
+     *
+     * @throws IOException the io exception
+     */
     @Test
     @Order(17)
     public void test_argument_number_error_two_para() throws IOException {
@@ -384,6 +476,11 @@ public class test_Utils {
         assertFalse(std_out.toString().contains("error"));
     }
 
+    /**
+     * After each.
+     *
+     * @throws IOException the io exception
+     */
     @AfterEach
     public void after_each() throws IOException {
         assertFalse(std_out.toString().contains("error code is 0"));

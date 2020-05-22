@@ -188,3 +188,5 @@ lab_*/*
 *.sqlite*
 # Mac
 *.DS_Store
+!project/introduce/*.pdf
+!Assignment_02/CS209*.pdf
