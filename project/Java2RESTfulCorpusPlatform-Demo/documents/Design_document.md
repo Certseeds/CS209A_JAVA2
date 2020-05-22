@@ -4,10 +4,10 @@
  * @Author: nanoseeds
  * @Date: 2020-05-20 16:28:57
  * @LastEditors: nanoseeds
- * @LastEditTime: 2020-05-22 23:50:58
+ * @LastEditTime: 2020-05-23 00:12:45
  * @License: CC-BY-NC-SA_V4_0 or any later version 
  -->
-## Final Project Document
+## CS209A 2020Spring Final Project Document
 
 ### 要求
 1. 1Page = 450 – 650 words
