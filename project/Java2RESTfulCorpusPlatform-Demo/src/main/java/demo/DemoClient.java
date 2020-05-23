@@ -1,11 +1,17 @@
 package demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.jmimemagic.Magic;
+import net.sf.jmimemagic.MagicException;
+import net.sf.jmimemagic.MagicMatch;
+import net.sf.jmimemagic.MagicMatchNotFoundException;
+import net.sf.jmimemagic.MagicParseException;
 import org.apache.http.client.fluent.Request;
 import util.Operation;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -33,6 +39,8 @@ public class DemoClient {
      * The Object mapper. use for deserialize.
      */
     static ObjectMapper objectMapper = new ObjectMapper();
+    static Magic mime_parser = new Magic();
+    //private static org.apache.logging.log4j.Logger logger2 = LogManager.getLogger(DemoClient.class);
 
     /**
      * The entry point of application.
@@ -41,6 +49,7 @@ public class DemoClient {
      * @throws IOException the io exception
      */
     public static void main(String[] args) throws IOException {
+        //System.out.println(logger.getLevel());
         Scanner in = new Scanner(System.in);
         while (true) {
             args = in.nextLine().split("\\s+");
@@ -157,6 +166,20 @@ public class DemoClient {
         HashSet<File> hs_file = new HashSet<>();
         hs_file.addAll(files);
         for (File file : hs_file) {
+            MagicMatch match = new MagicMatch();
+            try {
+                match = mime_parser.getMagicMatch(Files.readAllBytes(file.toPath()));
+            } catch (MagicException e) {
+                e.printStackTrace();
+            } catch (MagicParseException e) {
+                e.printStackTrace();
+            } catch (MagicMatchNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (!match.getMimeType().contains("text")) {
+                System.err.printf("Path %s is not text, upload fail.", file.getAbsolutePath());
+                continue;
+            }
             if (!(file.exists() && file.isFile() && file.canRead())) {
                 System.err.printf("Wrong Path of %s", file.getAbsolutePath());
                 continue;

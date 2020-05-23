@@ -73,6 +73,10 @@ public class test_Utils {
 
     @BeforeAll
     private static void initial() throws ClassNotFoundException, IOException {
+        deleteDirectory(new File("./download/"));
+        deleteDirectory(new File("./upload/"));
+        forceMkdir(new File("./download/"));
+        forceMkdir(new File("./upload/"));
         util = new Utils();
         PrintStream console = System.out;
         // 获取System.out 输出流的句柄
@@ -86,14 +90,6 @@ public class test_Utils {
         System.setOut(new PrintStream(std_out));
         std_err = new ByteArrayOutputStream();
         System.setErr(new PrintStream(std_err));
-    }
-
-    @AfterAll
-    private static void after_all() throws IOException {
-        deleteDirectory(new File("./download/"));
-        deleteDirectory(new File("./upload/"));
-        forceMkdir(new File("./download/"));
-        forceMkdir(new File("./upload/"));
     }
 
     /**
@@ -476,6 +472,14 @@ public class test_Utils {
         assertFalse(std_out.toString().contains("error"));
     }
 
+    @AfterAll
+    private static void after_all() throws IOException {
+        deleteDirectory(new File("./download/"));
+        deleteDirectory(new File("./upload/"));
+        forceMkdir(new File("./download/"));
+        forceMkdir(new File("./upload/"));
+    }
+
     /**
      * After each.
      *
@@ -487,10 +491,11 @@ public class test_Utils {
         assertFalse(std_out.toString().contains("error code is 1"));
         assertFalse(std_out.toString().contains("error code is 2"));
         assertFalse(std_out.toString().contains("error code is 3"));
-        assertFalse(std_err.toString().contains("database"));
+        //assertFalse(std_err.toString().contains("database"));
         assertFalse(std_err.toString().contains("download"));
         assertFalse(std_err.toString().contains("length is"));
         assertFalse(std_err.toString().contains("distance between"));
+        assertFalse(std_err.toString().contains("upload fail."));
         std_out.close();
         std_err.close();
     }
