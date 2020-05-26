@@ -25,9 +25,9 @@
 2. Given some email addresses of SUSTech students, use regular expressions to get the
 student id and print it:
 Input:
-    11710001@mail.sustc.edu.cn
-    11810002@mail.sustech.edu.cn
-    11610003@mail.sustc.edu.cn
+11710001@mail.sustc.edu.cn
+11810002@mail.sustech.edu.cn
+11610003@mail.sustc.edu.cn
 Output:
     11710001
     11810002
@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 
 public class Lab14_Q2 {
     public static void main(String[] args) {
-        String string_pattern = "^(\\d{8})\\@mail.sust[e]?c[h]?.edu.cn$";
+        String string_pattern = "^(\\d{8})\\@mail\\.sust[e]?c[h]?\\.edu\\.cn$";
         Scanner input = new Scanner(System.in);
         Pattern p = Pattern.compile(string_pattern);
         while (true) {

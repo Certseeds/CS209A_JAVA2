@@ -107,7 +107,8 @@ public class test_Utils {
     @Test
     @Order(1)
     public void test_get_simple_similarity() {
-        assertEquals(1.0f / 7.0f, Double.valueOf(util.get_simple_similarity("114514", "1234567")), 1.0f / 1000.0f);
+        assertEquals(1.0f / 7.0f, Double.parseDouble(util.get_simple_similarity("114514", "1234567")), 1.0f / 1000.0f);
+
     }
 
     /**
