@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 
 public class Lab14_Q1 {
     public static void main(String[] args) {
+        byte[] temp = "10100".getBytes();
         //        2019 年 4 月 8 日星期一
         //String string_pattern_old = "^\\s*(\\w+\\s*)年(\\s*\\w+\\s*)月(\\s*\\w+\\s*)日(\\S+)$";
         String string_pattern = "^\\s*(.+)\\s*年\\s*(.+)\\s*月\\s*(.+)\\s*日(\\S*)$";
