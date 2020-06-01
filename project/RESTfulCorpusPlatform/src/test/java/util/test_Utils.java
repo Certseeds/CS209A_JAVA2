@@ -92,6 +92,14 @@ public class test_Utils {
         System.setErr(new PrintStream(std_err));
     }
 
+    @AfterAll
+    private static void after_all() throws IOException {
+        deleteDirectory(new File("./download/"));
+        deleteDirectory(new File("./upload/"));
+        forceMkdir(new File("./download/"));
+        forceMkdir(new File("./upload/"));
+    }
+
     /**
      * Before each.
      */
@@ -471,14 +479,6 @@ public class test_Utils {
         assertFalse(std_err.toString().contains("error code is 3"));
         assertFalse(std_out.toString().contains("database"));
         assertFalse(std_out.toString().contains("error"));
-    }
-
-    @AfterAll
-    private static void after_all() throws IOException {
-        deleteDirectory(new File("./download/"));
-        deleteDirectory(new File("./upload/"));
-        forceMkdir(new File("./download/"));
-        forceMkdir(new File("./upload/"));
     }
 
     /**
