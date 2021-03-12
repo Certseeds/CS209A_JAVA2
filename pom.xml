@@ -14,13 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <!-- will delete begin -->
-        <!--        <junit.version>4.13</junit.version>-->
-        <!--        <junit.jupiter.version>5.6.2</junit.jupiter.version>-->
-        <!--        <junit.vintage.version>5.6.2</junit.vintage.version>-->
-        <!-- will delete end -->
+        <jdk.version>11</jdk.version>
     </properties>
 
     <dependencies>
@@ -30,26 +24,6 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
-        <!--        &lt;!&ndash; will delete begin &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>junit</groupId>-->
-        <!--            <artifactId>junit</artifactId>-->
-        <!--            <version>${junit.version}</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.junit.jupiter</groupId>-->
-        <!--            <artifactId>junit-jupiter-engine</artifactId>-->
-        <!--            <version>${junit.jupiter.version}</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-        <!--        &lt;!&ndash; will delete end &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.junit.vintage</groupId>-->
-        <!--            <artifactId>junit-vintage-engine</artifactId>-->
-        <!--            <version>${junit.vintage.version}</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
             <artifactId>jxl</artifactId>
@@ -63,11 +37,9 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx.base</artifactId>
-            <scope>system</scope>
-            <systemPath>C:/Program Files/Java/javafx-sdk-11.0.2/lib/javafx.base.jar</systemPath>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.2</version>
         </dependency>
-        <!-- lab13 begin -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
@@ -104,7 +76,10 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <release>11</release>
+                        <encoding>UTF-8</encoding>
+                        <source>${jdk.version}</source>
+                        <target>${jdk.version}</target>
+                        <release>${jdk.version}</release>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -131,6 +106,11 @@
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>0.0.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>

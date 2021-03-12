@@ -1,16 +1,6 @@
 package com.nanoseeds.week04;
 
-import org.junit.jupiter.api.*;
-
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.nio.file.FileAlreadyExistsException;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -35,5 +25,13 @@ public class test_codeBreaker {
         StringBuffer sb = new StringBuffer();
         sb.append("114514");
         System.out.println(sb.indexOf(String.valueOf('a')));
+    }
+
+    @Test
+    public void test_lab04_main() {
+        CodeBreaker.main(
+                new String[]{
+                        "src/main/java/com/nanoseeds/week04/secret.txt"
+                });
     }
 }
