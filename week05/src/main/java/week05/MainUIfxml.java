@@ -7,17 +7,15 @@
  * @LastEditors : nanoseeds
  * @LastEditTime : 2020-03-17 22:14:23
  */
-package com_nanoseeds_cs205;
+package week05;
 
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
