@@ -1,4 +1,4 @@
-package com_nanoseeds_cs205;
+package week05;
 
 public class Controller {
 }
